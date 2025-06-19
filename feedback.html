@@ -1,0 +1,251 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UrbanPulse | Feedback</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+  <style>
+    :root {
+      --primary: #1de9b6;
+      --bg: #181f2a;
+      --card-bg: rgba(40,50,70,0.85);
+      --accent: #2979ff;
+      --text: #e3f2fd;
+      --nav-bg: rgba(24,31,42,0.92);
+      --footer-bg: #131722;
+      --error: #ff5252;
+    }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--nav-bg);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 70px;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px #0007;
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 32px;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+    nav a.active, nav a:hover {
+      color: var(--primary);
+    }
+    .forum-container {
+      max-width: 600px;
+      margin: 48px auto 0 auto;
+      padding: 0 24px;
+    }
+    .forum-title {
+      color: var(--primary);
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+      text-shadow: 0 2px 12px #0006;
+      text-align: center;
+    }
+    .forum-form {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 2px 18px #0003;
+      padding: 24px 20px 16px 20px;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .forum-form label {
+      color: #b0e0ef;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .forum-form input, .forum-form textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      background: #222b3a;
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 8px;
+      outline: none;
+      transition: box-shadow 0.2s;
+    }
+    .forum-form input:focus, .forum-form textarea:focus {
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+    .forum-form button {
+      background: var(--primary);
+      color: #131722;
+      border: none;
+      padding: 12px 0;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .forum-form button:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .error-msg {
+      color: var(--error);
+      font-size: 0.98rem;
+      margin-bottom: 0;
+    }
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .comment-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #0003;
+      padding: 18px 16px;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s;
+      animation: fadeIn 0.5s;
+    }
+    .comment-card:hover {
+      box-shadow: 0 6px 24px #0004;
+      transform: translateY(-2px) scale(1.01);
+    }
+    .comment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .comment-name {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1.08rem;
+    }
+    .comment-date {
+      color: #b0e0ef;
+      font-size: 0.93rem;
+      font-weight: 400;
+    }
+    .comment-text {
+      color: #e3f2fd;
+      font-size: 1.05rem;
+      margin-bottom: 0;
+      white-space: pre-wrap;
+    }
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--error);
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-left: 12px;
+      transition: color 0.18s;
+    }
+    .delete-btn:hover { color: #ff1744; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px);}
+      to { opacity: 1; transform: none;}
+    }
+    footer {
+      background: var(--footer-bg);
+      color: #b0e0ef;
+      text-align: center;
+      padding: 24px 0 12px 0;
+      margin-top: 64px;
+      font-size: 1rem;
+    }
+    .socials {
+      margin: 12px 0 0 0;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    .socials a {
+      color: var(--primary);
+      font-size: 1.3rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .socials a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">UrbanPulse</div>
+      <nav>
+        <a href="home.html">Home</a>
+        <a href="local-issues.html">Local Issues</a>
+        <a href="solutions.html">Solutions</a>
+        <a href="events.html">Community Events</a>
+        <a href="feedback.html" class="active">Feedback</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div id="forum" class="forum-container">
+      <div class="forum-title">Community Feedback Forum</div>
+      <form class="forum-form" @submit.prevent="addComment">
+        <div>
+          <label for="name">Your Name</label>
+          <input id="name" type="text" v-model="name" maxlength="32" autocomplete="off" placeholder="Enter your name">
+        </div>
+        <div>
+          <label for="comment">Your Comment</label>
+          <textarea id="comment" v-model="comment" rows="3" maxlength="240" placeholder="Share your thoughts..."></textarea>
+        </div>
+        <div v-if="error" class="error-msg"></div>
+        <button type="submit">Post Comment</button>
+      </form>
+      <div class="comments-list">
+        <transition-group name="fade" tag="div">
+          <div class="comment-card" v-for="(c, idx) in comments" :key="c.id">
+            <div class="comment-header">
+              <span class="comment-name">awoesom</span>
+              <span class="comment-date">very help full</span>
+              <button class="delete-btn" @click="deleteComment(idx)" title="Delete">&times;</button>
+            </div>
+            <div class="comment-text">greate </div>
+          </div>
+        </transition-group>
+        <div v-if="comments.length === 0" style="color:#b0e0ef;text-align:center;margin-top:24px;">
+          No comments yet. Be the first to share your thoughts!
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div>© 2025 UrbanPulse &mdash; Empowering Smart Cities</div>
+    <div class="socials">
+      <a href="#" title="Facebook"><svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.632.772-1.632 1.562v1.875h2.773l-.443 2.89h-2.
